@@ -53,7 +53,7 @@ body {
 /* Heres some pre-made styling you can add you your elements to save some
 time on styling. You'll have to think about the structure of your html and
 add the given classes to the correct elements. Most elements will need parent
-divs in order for these classes to work, so pay attention to the nested
+<div> in order for these classes to work, so pay attention to the nested
 styles. Learn more about nested selectors here: 
 https://developer.chrome.com/articles/css-nesting 
 Notes about each selector are added below. You are also welcome comment out 

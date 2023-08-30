@@ -2,26 +2,26 @@ import "./App.css"
 import { getAllJokes } from "./services/jokeService"
 import { useState, useEffect } from "react"
 
-
-// export const App = () => {
-//   return <div>Hello World!</div>
-// }
-
 // useEffect to fetch jokes and set to newJokes on initial render
 export const App = () => {
 
-const handleBtnClick = () => {
- // what does button do? build 
-}
+
   const [allJokes, setAllJokes ] = useState ([])
-  const [setToldJokes, setUntoldJokes] = useState([])
+  const [newJoke, setNewJoke] = useState([])
+  const [toldJokes, setToldJokes] = useState([])
+  const [notToldJokes, setUntoldJokes] = useState([])
+
+  
 
   useEffect( () => {
     getAllJokes().then((jokesArray) => {
-      // setAllJokes(jokesArray) here
+      setAllJokes(jokesArray) 
       console.log("New Jokes Set!")
     })
   }, [])
+// build way for allJokes to display at bottom - like cars and kneels.
+
+
 
   useEffect( () => {
     if (allJokes) {
@@ -35,27 +35,39 @@ const handleBtnClick = () => {
       setUntoldJokes(notToldJokes)
     } 
 }
-  , [allJokes, setToldJokes])
+  , [allJokes, setToldJokes, setUntoldJokes])
+
+  
+    // what does button do? use postNewJoke here if new, puts in array - if not do this -console.log("Whah, Whah...thats an old one.")
+   
 
   return  <>
+<div>
+  <h2>Chuckle Checklist</h2>
   <header className="app-heading"></header>
+</div>
+  
   <div className="app-heading-circle">
    <img className="app-logo" src={ require(`./assets/steve.png`)} alt="Good job Steve" />
  </div>
 
-  <button className="joke-add-form" type="text" onClick={handleBtnClick}>Joke Me</button>
+  <button className="joke-add-form" type="text" onClick={(handleBtnClick) => {getAllJokes(newJoke)}}>Joke Me</button>
   <input
     className="joke-input"
     type="text"
-    //value={/* What should go here? value of input here */}
+    value={newJoke}
+  //value of input here A form field element should have an id or name attribute
     placeholder="New One Liner"
     onChange={(event) => {
-      // What's the value of event? set value event.target.value
+      setNewJoke(event.target.value)
     }}
   />
+  {/* <ul>
+    {/* {allJokes.map(joke => {
+      <li key={joke.id}>{joke.text}</li>
+    })}
+  </ul> */} 
   </>
-  
-
 
 }
 

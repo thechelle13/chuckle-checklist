@@ -11,6 +11,12 @@ export const App = () => {
   const [newJoke, setNewJoke] = useState([])
   const [unToldJokes, setUntoldOnly] = useState([])
   const [toldJokes, setToldJokes] = useState([])
+  const [count, setCount] = useState(0)
+
+  const handleBtnClick = () => {
+        setCount(count + 1)
+        console.log(count)
+      }
 
   useEffect( () => {
     jokeEdit().then(() => {
@@ -84,9 +90,12 @@ return  <div className="app-container">
 
 
               <ul>
+              <div>{count}</div>
                 {unToldJokes.map((joke) => {
                   return (
+                    
                      <section className="joke-list-container">
+                      
                         <div className="joke-list-container" key={joke.id}>
                           <div className="">
                             <li className="joke-list-container">
@@ -98,8 +107,7 @@ return  <div className="app-container">
                           </div>
                         </div>
                         </section>  
-                      
-                         
+                  
                     
                   )
                 })}
@@ -107,6 +115,7 @@ return  <div className="app-container">
 
 
                 <ul>
+                <div>{count}</div>
                 {toldJokes.map((joke) => {
                   return (
                     

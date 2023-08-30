@@ -29,4 +29,29 @@ export const newJokePost = async(text) => {
     
 }
 
-// add edit, and delete func
+// add edit, and delete func .method "DELETE" , "PUT" - in database edit the localhost with?
+
+export const jokeEdit = async() => {
+    const editJoke = {}
+     const res = await fetch (`http://localhost:8088/jokes/`
+        ,{
+        method: "PUT",
+        headers: {
+                "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editJoke)
+    })
+await res.json()}
+
+
+export const jokeDelete = async() => {
+    const deleteJoke = {}
+    const res = await fetch (`http://localhost:8088/jokes/`
+    ,{
+    method: "Delete",
+    headers: {
+            "Content-Type": "application/json"
+    },
+    body: JSON.stringify(deleteJoke)
+})
+await res.json()}

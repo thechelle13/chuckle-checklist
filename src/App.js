@@ -1,13 +1,30 @@
 import "./App.css"
-import { getAllJokes, newJokePost } from "./services/jokeService"
+import {  getAllJokes, 
+          newJokePost, 
+          jokeEdit, 
+          jokeDelete} from "./services/jokeService"
 import { useState, useEffect } from "react"
+
 
 export const App = () => {
   const [allJokes, setAllJokes ] = useState ([])
   const [newJoke, setNewJoke] = useState([])
-  const [unToldJokes, showUntoldOnly] = useState([])
-  const [filterJokes, setFilterJokes] = useState([])
-  
+  const [unToldJokes, setUntoldOnly] = useState([])
+  const [toldJokes, setToldJokes] = useState([])
+
+  useEffect( () => {
+    jokeEdit().then(() => {
+      
+    })
+  }
+  )
+
+  useEffect( () => {
+    jokeDelete().then(() => {
+      
+    })
+  }
+  )
 
   useEffect( () => {
     getAllJokes().then((jokesArray) => {
@@ -24,28 +41,28 @@ export const App = () => {
   // address logic so that repeated jokes do not add to database?
 
   useEffect( () => {
-    if (unToldJokes) {
+      const toldJokes = allJokes.filter(
+        (joke) => joke.told === true)
       const unToldJokeList = allJokes.filter(
-        (joke) => joke.told === false
-      )
-      setFilterJokes(unToldJokeList)
-      } else {
-      setFilterJokes(allJokes)
-    } 
+        (joke) => joke.told === false)
+      setToldJokes(toldJokes)
+      
+      setUntoldOnly(unToldJokeList)
+    
   }
-  , [unToldJokes, allJokes])
+  , [ allJokes])
+
+
+
 
 return  <div className="app-container">
-   
+        <header className="app-heading">
             <div >
-            
-              <h2 className="app-heading-text">Chuckle Checklist</h2>
-              
+            <img className="app-logo" src={ require(`./assets/steve.png`)} alt="Good job Steve" />
             </div>
+              <h2 className="app-heading-text">Chuckle Checklist</h2>
             
-            
-              <img className="app-logo" src={ require(`./assets/steve.png`)} alt="Good job Steve" />
-            
+         </header>
          
             <div className="joke-add-form">
               <input
@@ -60,30 +77,61 @@ return  <div className="app-container">
                 (submitEvent) => {
                 newJokePost(newJoke)}}>Joke Me</button>
             </div>
-
+                 
             
             <article className="joke-lists-container">
-              <header>Joke List</header>
-                {filterJokes.map((joke) => {
+              
+
+
+              <ul>
+                {unToldJokes.map((joke) => {
                   return (
-                    <> 
-                      <section>
-                        <div className="joke-input" key={joke.id}>
-                          <ul className="joke-input">
-                            <li className="joke-list-item">{joke.text}
-                              <button className=""></button>
-                              <button className=""></button>
+                     <section className="joke-list-container">
+                        <div className="joke-list-container" key={joke.id}>
+                          <div className="">
+                            <li className="joke-list-container">
+                              <p className="joke-list-item-text">{joke.text}</p>
+                              <div className="joke-list-action-toggle"><button className="joke-list-action-toggle :hover">Toggle</button>
+                              </div>
+                              <div className="joke-list-action-delete"><button className="joke-list-action-delete :hover">Delete</button></div>
                             </li>
-                          </ul>
-                        </div>  
-                      </section> 
+                          </div>
+                        </div>
+                        </section>  
+                      
                          
-                    </>
+                    
                   )
                 })}
+                </ul>
+
+
+                <ul>
+                {toldJokes.map((joke) => {
+                  return (
+                    
+                     <section className="joke-list-container">
+                        <div className="joke-list-container" key={joke.id}>
+                          <div className="">
+                            <li className="joke-list-container">
+                              <p className="joke-list-item-text">{joke.text}</p>
+                              <div className="joke-list-action-toggle"><button className="joke-list-action-toggle :hover">Toggle</button>
+                              </div>
+                              <div className="joke-list-action-delete"><button className="joke-list-action-delete :hover">Delete</button></div>
+                            </li>
+                          </div>
+                        </div>
+                        </section>  
+                      
+                         
+                    
+                  )
+                })}
+                </ul>
               </article>
           
         </div>
+      
 }
 
 

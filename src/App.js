@@ -15,12 +15,13 @@ export const App = () => {
     })
   }, [])
 
-// sets empty state
+  // sets empty state
   useEffect ( () => {
     setNewJoke("")
   }, [allJokes])
 
-// address logic so that repeated jokes do not add to database
+  // address logic so that repeated jokes do not add to database
+
   useEffect( () => {
     if (allJokes) {
       const toldJokes = allJokes.filter(
@@ -35,37 +36,49 @@ export const App = () => {
   }
   , [allJokes])
 
-  return  <div className="app-container">
-  <div >
-    <h1 className="app-heading-text">Chuckle Checklist</h1>
-      <header className="app-heading"></header>
-  </div>
+return  <div className="app-container">
+            <div >
+              <h2 className="app-heading-text">Chuckle Checklist</h2>
+            </div>
   
-  <div className="app-heading-circle">
-   <img className="app-logo" src={ require(`./assets/steve.png`)} alt="Good job Steve" />
-  </div>
- 
-  <div className="joke-add-form">
-    <button className="joke-add-form" type="text" onClick={
-      (submitEvent) => {
-      newJokePost(newJoke)}}>Joke Me</button>
-  
-    <input
-      className="joke-input"
-      type="text"
-      value={newJoke}
-      placeholder="New One Liner"
-      onChange={(clickEvent) => {
-        setNewJoke(clickEvent.target.value)
-      }}/>
-  </div>
-    
-  </div>
+            <div className="app-heading-circle">
+              <img className="app-logo" src={ require(`./assets/steve.png`)} alt="Good job Steve" />
+            </div>
+
+            <div className="joke-add-form">
+              <input
+                className="joke-input"
+                type="text"
+                value={newJoke}
+                placeholder="New One Liner"
+                onChange={(clickEvent) => {
+                  setNewJoke(clickEvent.target.value)
+                }}/>
+              <button className="joke-add-form" type="text" onClick={
+                (submitEvent) => {
+                newJokePost(newJoke)}}>Joke Me</button>
+            </div>
+            
+            <div>
+              <div className="joke-lists-container">
+                <div className="joke-list-container">
+                  <h2>Told</h2>
+                  <li ></li>
+                </div>
+
+                <div className="joke-list-container">
+                  <h2>Untold</h2>
+                  <li ></li>
+                </div>
+              </div>
+            </div>
+        </div>
 }
 
 
 
-// Now add a button for posting the new joke. When the user clicks on the button, a new joke with the text the user inputted should be added to the database. All new jokes added to the database should have the told property set to false.
 
 // We want our input field to clear once the joke has been posted. How can we do this? Currently, our input field modifies our state every time it changes, so our state is tied to our input field. Is there a way to tie our input field to our state? Try using that value attribute on the input element.
+
+// display told and untold at bottom using <li> , <p> , 
 

@@ -11,12 +11,13 @@ export const App = () => {
   const [newJoke, setNewJoke] = useState([])
   const [unToldJokes, setUntoldOnly] = useState([])
   const [toldJokes, setToldJokes] = useState([])
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState([0])
 
-  const handleBtnClick = () => {
+  
+  const jokeCount = () => {
         setCount(count + 1)
-        console.log(count)
       }
+
 
   useEffect( () => {
     jokeEdit().then(() => {
@@ -25,12 +26,14 @@ export const App = () => {
   }
   )
 
+
   useEffect( () => {
     jokeDelete().then(() => {
       
     })
   }
   )
+
 
   useEffect( () => {
     getAllJokes().then((jokesArray) => {
@@ -39,12 +42,11 @@ export const App = () => {
     })
   }, [])
 
-  // sets empty state here instead of doing as transient
+
+  
   useEffect ( () => {
     setNewJoke("")
   }, [allJokes])
-
-  // address logic so that repeated jokes do not add to database?
 
   useEffect( () => {
       const toldJokes = allJokes.filter(
@@ -59,17 +61,16 @@ export const App = () => {
   , [ allJokes])
 
 
-
-
 return  <div className="app-container">
-        <header className="app-heading">
-            <div >
-            <img className="app-logo" src={ require(`./assets/steve.png`)} alt="Good job Steve" />
+          <header className="app-heading">
+            <div className="app-heading-circle">
+              <img className="app-logo" src={ require(`./assets/steve.png`)} alt="Good job Steve" />
             </div>
-              <h2 className="app-heading-text">Chuckle Checklist</h2>
-            
-         </header>
-         
+          </header>
+          <div className="app-heading-text">
+              <h2 >Chuckle Checklist</h2>
+          </div>
+
             <div className="joke-add-form">
               <input
                 className="joke-input"
@@ -79,74 +80,67 @@ return  <div className="app-container">
                 onChange={(clickEvent) => {
                   setNewJoke(clickEvent.target.value)
                 }}/>
-              <button className="joke-add-form" type="text" onClick={
+              <button className="joke-input-submit" type="text" onClick={
                 (submitEvent) => {
                 newJokePost(newJoke)}}>Joke Me</button>
-            </div>
-                 
+            </div>      
             
-            <article className="joke-lists-container">
-              
+          <article className="app-container">
 
-
-              <ul>
-              <div>{count}</div>
+              <div className="joke-lists-container untold-count"></div>
+                <h2>Untold 
+                  <span className="untold-count" key={jokeCount}>{unToldJokes.length }
+                  </span>
+                </h2>
+                <ul>
                 {unToldJokes.map((joke) => {
                   return (
                     
-                     <section className="joke-list-container">
+                  <section className="joke-list-container" key={joke.id}>
                       
-                        <div className="joke-list-container" key={joke.id}>
-                          <div className="">
-                            <li className="joke-list-container">
-                              <p className="joke-list-item-text">{joke.text}</p>
-                              <div className="joke-list-action-toggle"><button className="joke-list-action-toggle :hover">Toggle</button>
-                              </div>
-                              <div className="joke-list-action-delete"><button className="joke-list-action-delete :hover">Delete</button></div>
-                            </li>
-                          </div>
+                    <li className="joke-list-item">
+                      <p className="joke-list-item-text">{joke.text}</p>
+                        <div className="joke-list-action-toggle">
+                          <button className="joke-list-action-toggle :hover">Toggle</button>
                         </div>
-                        </section>  
-                  
-                    
+                        <div className="joke-list-action-delete">
+                          <button className="joke-list-action-delete :hover">Delete</button>
+                        </div>
+                    </li>
+                  </section> 
+                )
+                }
+                )}
+                </ul>
+
+                
+                <div className="joke-lists-container told-count"></div>
+                  <h2>Told 
+                    <span className="told-count" key={jokeCount}>{toldJokes.length}
+                    </span>
+                  </h2> 
+                  <ul>               
+                    {toldJokes.map((joke) => {
+                    return (
+                    <section className="joke-list-container" key={joke.id}>
+                            <li className="joke-list-item">
+                              <p className="joke-list-item-text">{joke.text}</p>
+                              <div className="joke-list-action-toggle">
+                                <button className="joke-list-action-toggle :hover">Toggle</button>
+                              </div>
+                              <div className="joke-list-action-delete">
+                                <button className="joke-list-action-delete :hover">Delete</button>
+                              </div>
+                            </li>
+                      </section>                                                              
                   )
                 })}
                 </ul>
-
-
-                <ul>
-                <div>{count}</div>
-                {toldJokes.map((joke) => {
-                  return (
-                    
-                     <section className="joke-list-container">
-                        <div className="joke-list-container" key={joke.id}>
-                          <div className="">
-                            <li className="joke-list-container">
-                              <p className="joke-list-item-text">{joke.text}</p>
-                              <div className="joke-list-action-toggle"><button className="joke-list-action-toggle :hover">Toggle</button>
-                              </div>
-                              <div className="joke-list-action-delete"><button className="joke-list-action-delete :hover">Delete</button></div>
-                            </li>
-                          </div>
-                        </div>
-                        </section>  
-                      
-                         
-                    
-                  )
-                })}
-                </ul>
-              </article>
+            </article>
           
         </div>
       
 }
 
 
-
-
-// We want our input field to clear once the joke has been posted. How can we do this? Currently, our input field modifies our state every time it changes, so our state is tied to our input field. Is there a way to tie our input field to our state? Try using that value attribute on the input element.
-
-// display jokes at bottom using <li> , <p> , 
 

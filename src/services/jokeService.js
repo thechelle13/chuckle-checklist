@@ -5,7 +5,7 @@
 
 export const getAllJokes = async() => {
     return fetch(`http://localhost:8088/jokes`).then((res) => res.json())
-} // build Post here to add to jokes as string and add key values here
+} 
 
 
 export const newJokePost = async(text) => {
@@ -29,29 +29,31 @@ export const newJokePost = async(text) => {
     
 }
 
-// add edit, and delete func .method "DELETE" , "PUT" - in database edit the localhost with?
+// add edit, and delete func .method "DELETE" , "PUT" -  
 
-export const jokeEdit = async() => {
-    const editJoke = {}
-     const res = await fetch (`http://localhost:8088/jokes/`
+export const jokeEdit = async(jokeEdited) => {
+ 
+     const res = await fetch (`http://localhost:8088/jokes/${jokeEdited}`
         ,{
         method: "PUT",
         headers: {
                 "Content-Type": "application/json"
         },
-        body: JSON.stringify(editJoke)
+        body: JSON.stringify(jokeEdited)
     })
-await res.json()}
+    const editJoke = await res.json()
+    return editJoke
+}
 
 
-export const jokeDelete = async() => {
-    const deleteJoke = {}
-    const res = await fetch (`http://localhost:8088/jokes/`
+export const jokeDelete = async(jokeDeleted) => {
+    
+    
+    const res = await fetch (`http://localhost:8088/jokes/${jokeDeleted}`
     ,{
-    method: "Delete",
-    headers: {
-            "Content-Type": "application/json"
-    },
-    body: JSON.stringify(deleteJoke)
-})
-await res.json()}
+        method: "DELETE",
+   
+    })
+    const deleteJoke = await res.json()
+    return deleteJoke
+}
